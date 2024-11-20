@@ -8,6 +8,8 @@ function App() {
   const [newTitle, setNewTitle] = useState("");
   const [newDescription, setNewDescription] = useState("");
 
+  //la accion del evento onclick
+
   const handlingAddTodo = () => {
     let newTodoItem = {
       title: newTitle,
@@ -17,8 +19,8 @@ function App() {
     let updateTodoArr = [...allTodos]; //crea una copia del arreglo para no modificar el estado directamente
     updateTodoArr.push(newTodoItem);
     setTodos(updateTodoArr);
+    localStorage.setItem("todolist", JSON.stringify(updateTodoArr)); // hace que persista en el almacenamiento local y no se borre
   };
-
   return (
     <div className="App">
       <h1>MyTodolist</h1>
@@ -43,13 +45,13 @@ function App() {
               placeholder=" Que quieres hacer?"
             />
           </div>
+
           <div className="todo-input-item">
             <button
               type="button"
               onClick={handlingAddTodo}
               className="primaryBtn"
             >
-              {" "}
               Añadir
             </button>
           </div>

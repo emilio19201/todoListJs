@@ -1,9 +1,24 @@
 import { useState } from "react";
 import "./App.css";
-import { AiFillCheckCircle, AiTwotoneDelete } from "react-icons/ai";
+import { AiFillCheckCircle, AiOutlineDelete } from "react-icons/ai";
 
 function App() {
   const [isCompletedScreen, setIsCompletedScreen] = useState(false);
+  const [allTodos, setTodos] = useState([]);
+  const [newTitle, setNewTitle] = useState("");
+  const [newDescription, setNewDescription] = useState("");
+
+  const handlingAddTodo = () => {
+    let newTodoItem = {
+      title: newTitle,
+      description: newDescription,
+    };
+
+    let updateTodoArr = [...allTodos]; //crea una copia del arreglo para no modificar el estado directamente
+    updateTodoArr.push(newTodoItem);
+    setTodos(updateTodoArr);
+  };
+
   return (
     <div className="App">
       <h1>MyTodolist</h1>
@@ -12,14 +27,29 @@ function App() {
         <div className=" todo-input">
           <div className="todo-input-item">
             <label> Titulo </label>
-            <input type="text" placeholder=" Titulo de tu tarea?" />
+            <input
+              type="text"
+              value={newTitle}
+              onChange={(e) => setNewTitle(e.target.value)}
+              placeholder=" Titulo de tu tarea?"
+            />
           </div>
           <div className="todo-input-item">
             <label> Descripcion</label>
-            <input type="text" placeholder=" Que quieres hacer?" />
+            <input
+              type="text"
+              value={newDescription}
+              onChange={(e) => setNewDescription(e.target.value)}
+              placeholder=" Que quieres hacer?"
+            />
           </div>
           <div className="todo-input-item">
-            <button type="button" className="primaryBtn">
+            <button
+              type="button"
+              onClick={handlingAddTodo}
+              className="primaryBtn"
+            >
+              {" "}
               Añadir
             </button>
           </div>
@@ -43,15 +73,21 @@ function App() {
         </div>
 
         <div className="todo-list">
-          <div className="todo-list-item">
-            <h3>Tarea 1</h3>
-            <p>Descripcion</p>
+          {allTodos.map((item, index) => {
+            return (
+              <div className="todo-list-item" key={index}>
+                <div>
+                  <h3>{item.title}</h3>
+                  <p>{item.description}</p>
+                </div>
 
-            <div>
-              <AiTwotoneDelete className="icons" />
-              <AiFillCheckCircle className="icons-check" />
-            </div>
-          </div>
+                <div>
+                  <AiOutlineDelete className="icons" title="Delete?" />
+                  <AiFillCheckCircle className="icons-check" title="Complete" />
+                </div>
+              </div>
+            );
+          })}
         </div>
       </div>
     </div>

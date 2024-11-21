@@ -17,7 +17,7 @@ h1 {
   margin-top: 3%;
   max-height: 80vh;
   overflow: auto;
-  box-shadow: 0px 5px 7px rgb(44, 116, 2);
+  box-shadow: 0px 5px 7px rgba(59, 150, 6, 0.616);
 }
 
 .todo-input {

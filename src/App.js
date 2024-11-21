@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./App.css";
 import { AiFillCheckCircle, AiOutlineDelete } from "react-icons/ai";
 
@@ -8,19 +8,27 @@ function App() {
   const [newTitle, setNewTitle] = useState("");
   const [newDescription, setNewDescription] = useState("");
 
-  //la accion del evento onclick
+  //la accion del evento onclick primarybtn
 
   const handlingAddTodo = () => {
     let newTodoItem = {
       title: newTitle,
       description: newDescription,
     };
-
-    let updateTodoArr = [...allTodos]; //crea una copia del arreglo para no modificar el estado directamente
+      //crea una copia del arreglo para no modificar el estado directamente extrallendo todos los elmentos de este
+    let updateTodoArr = [...allTodos]; 
     updateTodoArr.push(newTodoItem);
     setTodos(updateTodoArr);
     localStorage.setItem("todolist", JSON.stringify(updateTodoArr)); // hace que persista en el almacenamiento local y no se borre
   };
+
+  useEffect(() => {
+    let savedTodo = JSON.parse(localStorage.getItem("todolist"));
+    if (savedTodo) {
+      setTodos(savedTodo);
+    }
+  }, []);
+
   return (
     <div className="App">
       <h1>MyTodolist</h1>
@@ -38,20 +46,11 @@ function App() {
           </div>
           <div className="todo-input-item">
             <label> Descripcion</label>
-            <input
-              type="text"
-              value={newDescription}
-              onChange={(e) => setNewDescription(e.target.value)}
-              placeholder=" Que quieres hacer?"
-            />
+            <input type="text" value={newDescription} onChange={(e) => setNewDescription(e.target.value)} placeholder=" Que quieres hacer?"  />
           </div>
 
           <div className="todo-input-item">
-            <button
-              type="button"
-              onClick={handlingAddTodo}
-              className="primaryBtn"
-            >
+            <button  type="button" onClick={handlingAddTodo}  className="primaryBtn">
               Añadir
             </button>
           </div>
